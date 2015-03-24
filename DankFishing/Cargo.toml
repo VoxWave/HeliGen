@@ -1,0 +1,9 @@
+[package]
+
+name = "DankFishing"
+version = "0.0.1"
+authors = ["VoxWave <victor_bankowski@hotmail.com>"]
+
+[[bin]]
+
+name = "main"
