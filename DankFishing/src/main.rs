@@ -1,8 +1,8 @@
 fn main() {
-	let poopoo = 12;
-	let mut paapaa = 11;
-	println!("so the value of this integer I call poopoo is: {} and paapaa is: {}", poopoo, paapaa);
+	let ayy = 12;
+	let mut lmao = 11;
+	println!("so the value of this integer I call ayy is: {} and lmao is: {}", ayy, lmao);
 
-	paapaa++
-	println!("now the values are: {} and {}", poopoo, paapaa);
+	lmao += 1;
+	println!("now the values are: {} and {}", ayy, lmao);
 }
