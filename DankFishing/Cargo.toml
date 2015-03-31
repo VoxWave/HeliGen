@@ -6,4 +6,16 @@ authors = ["VoxWave <victor_bankowski@hotmail.com>"]
 
 [[bin]]
 
-name = "main"
+name = "DankFishing"
+
+[dependencies.piston]
+git = "https://github.com/PistonDevelopers/piston.git"
+
+[dependencies.piston2d-graphics]
+git = "https://github.com/PistonDevelopers/graphics.git"
+
+[dependencies.pistoncore-sdl2_window]
+git = "https://github.com/PistonDevelopers/sdl2_window.git"
+
+[dependencies.piston2d-opengl_graphics]
+git = "https://github.com/PistonDevelopers/opengl_graphics.git"
