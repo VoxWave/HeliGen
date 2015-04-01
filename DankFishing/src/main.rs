@@ -1,11 +1,11 @@
 extern crate piston;
 extern crate graphics;
-extern crate sdl2_windows;
+extern crate sdl2_window;
 extern crate opengl_graphics;
 
 use std::rc::Rc;
 use std::cell::RefCell;
-use piston::window::WindowSetting;
+use piston::window::WindowSettings;
 use piston::event::{ events, RenderArgs, RenderEvent, UpdateArgs,UpdateEvent };
 
 use graphics::{ Context, rectangle, RelativeTransform };
@@ -18,7 +18,7 @@ pub struct App {
 }
 impl App {
 	fn render(&mut self, args: &RenderArgs) {
-		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
+		const DARKGREEN: [f32; 4] = [0.0, 0.5, 0.0, 1.0];
 		const BLUE: [f32; 4] = [0.0, 0.0, 1.0, 1.0];
 
 		let context = &Context::abs(args.width as f64, args.height as f64);
@@ -29,7 +29,7 @@ impl App {
 		let square = rectangle::square(0.0, 0.0, 50.0);
 
 		self.gl.draw([0, 0, args.width as i32, args.height as i32], |_, gl| {
-			graphics::clear(GREEN, gl);
+			graphics::clear(DARKGREEN, gl);
 
 			graphics::rectangle(BLUE, square, center_context.transform, gl);
 		});
@@ -54,7 +54,7 @@ fn main() {
 	println!("Oh btw I'm starting the awesomepart now");
 	let window = Window::new(
 		OpenGL::_3_2,
-		WindowSetting::default()
+		WindowSettings::default()
 	);
 	let window = Rc::new(RefCell::new(window));
 
