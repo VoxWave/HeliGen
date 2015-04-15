@@ -11,5 +11,5 @@ TODO:
     - get something controllable on the window/screen
     
   Stuff otherwise related to the project:
-    - ~~find a way to make building the project stable (adding any dependency makes the project not build in windows)~~ (Done. Apparently using sdl github repository as a dependency instead of the crates.io dependency will make the code compile)
-    - learn rust-SDL2
+  
+    - structure the code bootifully
