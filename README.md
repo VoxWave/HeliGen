@@ -4,7 +4,8 @@ made with the dankest mlg programming language: Rust.
 
 Master branch should always have a compiling version.
 
-TODO:
+TODO
+  
   Game Functionality:
 
    - ~~get a window open~~ (Done)
