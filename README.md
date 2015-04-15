@@ -7,9 +7,9 @@ Master branch should always have a compiling version.
 TODO:
   Game Functionality:
 
-    - ~~get a window open~~ (Done)
-    - get something controllable on the window/screen
+   - ~~get a window open~~ (Done)
+   - get something controllable on the window/screen
     
   Stuff otherwise related to the project:
   
-    - structure the code bootifully
+   - structure the code bootifully
