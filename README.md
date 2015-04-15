@@ -4,13 +4,9 @@ made with the dankest mlg programming language: Rust.
 
 Master branch should always have a compiling version.
 
-TODO
-  
-  Game Functionality:
-
-   - ~~get a window open~~ (Done)
-   - get something controllable on the window/screen
-    
-  Stuff otherwise related to the project:
-  
-   - structure the code bootifully
+TODO:
+ Game Functionality:
+  - ~~get a window open~~ (Done)
+  - - get something controllable on the window/screenStuff
+ Otherwise related to the project:
+  - structure the code bootifully
