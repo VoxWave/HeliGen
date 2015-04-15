@@ -5,9 +5,11 @@ made with the dankest mlg programming language: Rust.
 Master branch should always have a compiling version.
 
 TODO:
+  Game Functionality:
 
-- ~~get a window open~~ (Done)
-- get something controllable on the window/screen
-- ~~find a way to make building the project stable (adding any dependency make the project not build in windows)~~ (Done. Apparently using sdl github repository as a dependency instead of the crates.io dependency will make the code compile)
-- learn rust-SDL2
-- get a movable object on the screen
+    - ~~get a window open~~ (Done)
+    - get something controllable on the window/screen
+    
+  Stuff otherwise related to the project:
+    - ~~find a way to make building the project stable (adding any dependency makes the project not build in windows)~~ (Done. Apparently using sdl github repository as a dependency instead of the crates.io dependency will make the code compile)
+    - learn rust-SDL2
