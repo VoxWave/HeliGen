@@ -3,6 +3,7 @@ extern crate sdl2;
 use sdl2::video::{Window, WindowPos, OPENGL};
 use sdl2::render::{RenderDriverIndex, ACCELERATED, Renderer};
 use sdl2::pixels::Color;
+use sdl2::keycode::KeyCode;
 
 mod Game;
 
@@ -26,5 +27,20 @@ fn main() {
 	drawer.clear();
 	drawer.present();
 
-	Game::loop_game(sdl_context);
+	let mut running = true;
+	let mut event_pump = sdl_context.event_pump();
+
+	while running {
+		for event in event_pump.poll_iter() {
+			use sdl2::event::Event;
+
+			match event {
+				Event::Quit {..} | Event::KeyDown { keycode: KeyCode::Escape, .. } => {
+					running = false
+				},
+				_ => {}
+			}
+		}
+		//pelilogiikkaa
+	}
 }
