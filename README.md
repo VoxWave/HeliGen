@@ -1,6 +1,5 @@
-# DankFishing
-a mlg fishing themed puzzle game inspired by panel de pon, dr mario and tetris.
-made with the dankest mlg programming language: Rust.
+# DankSmashing
+a game where you smash things. made with rust and sdl2
 
 Master branch should always have a compiling version.
 
