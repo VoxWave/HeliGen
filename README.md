@@ -1,11 +1,5 @@
-# DankSmashing
-a game where you smash things. made with rust and sdl2
+# AudioGen
 
-Master branch should always have a compiling version.
-
-TODO:
- Game Functionality
- - ~~get a window open~~ (Done)
- - get something controllable on the window/screenStuff
- Otherwise related to the project
- - structure the code bootifully
+The aim of this project is to create a program that generates various types of sounds. initialy these sounds are outputted to a wav file but I will probably add audio playback in the program itself.    
+    
+This program is probably not very useful as it's just a pet project type thing on a subject I'm interested in.
