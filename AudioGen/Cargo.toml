@@ -1,0 +1,4 @@
+[package]
+name = "AudioGen"
+version = "0.1.0"
+authors = ["VoxWave <victor_bankowski@hotmail.com>"]
