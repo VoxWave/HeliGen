@@ -14,7 +14,7 @@ fn main() {
 
     options.write(true).create(true);
 
-    let path = Path::new("sine.txt");
+    let path = Path::new("sine.wav");
 
     let mut file = match options.open(&path) {
         Ok(file) => file,
