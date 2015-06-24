@@ -32,7 +32,7 @@ fn main() {
 
     let mut options = OpenOptions::new();
 
-    options.write(true).create(true);
+    options.write(true).create(true).truncate(true);
 
     let path = Path::new("sine.wav");
 
@@ -44,4 +44,5 @@ fn main() {
     let mut writer = BufWriter::new(&file);
 
     writer.write_all(b"RIFF");
+    writer.write_all(b"test");
 }
