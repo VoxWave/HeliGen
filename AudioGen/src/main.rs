@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 mod generators;
 mod filters;
 mod file_handling;
