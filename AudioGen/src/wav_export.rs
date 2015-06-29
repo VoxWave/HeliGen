@@ -19,4 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct WavFile {
     data: Vec<i16>,
     length: u32,
+    channels: u16,
+    sample_rate: u32,
+    bits_per_sample: u8,
+}
+
+impl WavFile {
+    pub fn new() {
+        
+    }
 }
