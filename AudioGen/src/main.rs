@@ -20,29 +20,9 @@ mod generators;
 mod filters;
 mod wav_export;
 
-use std::path::Path;
-use std::io::Write;
-use std::io::BufWriter;
-use std::fs::OpenOptions;
+use wav_export::WavFile;
 
 fn main() {
-
-
     println!("Generating a sine wave to sine.wav");
-
-    let mut options = OpenOptions::new();
-
-    options.write(true).create(true).truncate(true);
-
-    let path = Path::new("sine.wav");
-
-    let file = match options.open(&path) {
-        Ok(file) => file,
-        Err(..) => panic!("error opening a file"),
-    };
-
-    let mut writer = BufWriter::new(&file);
-
-    writer.write_all(b"RIFF");
-    writer.write_all(b"test");
+    let test_wav = WavFile::new();
 }

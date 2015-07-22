@@ -15,8 +15,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+use std::path::Path;
+use std::io::Write;
+use std::io::BufWriter;
+use std::fs::OpenOptions;
 
 struct WavFile {
+    path: String,
     data: Vec<i16>,
     length: u32,
     channels: u16,
@@ -25,7 +30,32 @@ struct WavFile {
 }
 
 impl WavFile {
-    pub fn new() {
-        
+    pub fn new(path: String, channels: u16, sample_rate: u32, bits_per_sample: u8) -> WavFile {
+        WavFile {
+            path: path,
+            data: Vec::new(),
+            length: 0,
+            channels: channels,
+            sample_rate: sample_rate,
+            bits_per_sample: bits_per_sample,
+        }
+    }
+
+    pub fn export() {
+        let mut options = OpenOptions::new();
+
+        options.write(true).create(true).truncate(true);
+
+        let path = Path::new("sine.wav");
+
+        let file = match options.open(&path) {
+            Ok(file) => file,
+            Err(..) => panic!("error opening a file"),
+        };
+
+        let mut writer = BufWriter::new(&file);
+
+        writer.write_all(b"RIFF");
+        writer.write_all(b"test");
     }
 }
