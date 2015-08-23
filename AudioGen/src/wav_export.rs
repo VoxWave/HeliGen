@@ -41,12 +41,12 @@ impl WavFile {
         }
     }
 
-    pub fn export() {
+    pub fn export(&self) {
         let mut options = OpenOptions::new();
 
         options.write(true).create(true).truncate(true);
 
-        let path = Path::new("sine.wav");
+        let path = self.path;
 
         let file = match options.open(&path) {
             Ok(file) => file,

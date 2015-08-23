@@ -24,5 +24,5 @@ use wav_export::WavFile;
 
 fn main() {
     println!("Generating a sine wave to sine.wav");
-    let test_wav = WavFile::new();
+    let test_wav = WavFile::new("sine.wav".to_owned(), 1u16, 44100u32, 16u8);
 }
