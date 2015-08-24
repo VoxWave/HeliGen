@@ -20,13 +20,18 @@ use std::io::Write;
 use std::io::BufWriter;
 use std::fs::OpenOptions;
 
-struct WavFile {
+pub struct WavFile {
+    header: WavFileHeader,
     path: String,
     data: Vec<i16>,
     length: u32,
     channels: u16,
     sample_rate: u32,
     bits_per_sample: u8,
+}
+
+struct WavFileHeader {
+
 }
 
 impl WavFile {
