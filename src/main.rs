@@ -16,9 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-mod generators;
+mod input;
 mod filters;
-mod wav_export;
+mod output;
 
 use wav_export::WavFile;
 
