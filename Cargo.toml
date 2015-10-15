@@ -5,3 +5,4 @@ authors = ["VoxWave <victor_bankowski@hotmail.com>"]
 
 [dependencies]
 hound = "1.0.0"
+conrod = "0.20.1"+
