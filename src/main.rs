@@ -1,28 +1,43 @@
-/*
-AudioGen audio generator.
-Copyright (C) 2015  Victor Bankowski
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-mod input;
-mod filters;
-mod output;
-
 use wav_export::WavFile;
 
-fn main() {
-    println!("Generating a sine wave to sine.wav");
+use std::io::{self, Write};
+use std::fs::File;
 
+fn main() {
+    let sample_rate = 44100;
+
+    println!("Enter time in seconds: ");
+    let seconds = usize_from_cmd();
+
+    let mut sound = Vec::with_capacity(sample_rate * seconds);
+
+    for x in 0..sample_rate*seconds {
+        sound.push(generate(x));
+    }
+
+    let mut buffer = File::create("sound").expect("whoops");
+
+    match buffer.write(&sound) {
+        Ok(x) => {
+            println!("{} bytes written", x)
+        },
+        _ => {
+            panic!("AAAAAAAAA")
+        }
+    }
+}
+
+fn generate(index: usize) -> u8 {
+    ((((index*2) as f64).sin() * (<u8>::max_value() as f64)/2. as f64) + <u8>::max_value())  as u8
+}
+
+fn usize_from_cmd() -> usize {
+    let mut num = String::new();
+
+    io::stdin().read_line(&mut num)
+        .expect("failed to read line");
+
+    let num: usize = num.trim().parse()
+        .expect("Please type a number!");
+    num
 }
