@@ -1,4 +1,5 @@
-use wav_export::WavFile;
+extern crate hound;
+extern crate dyon;
 
 use std::io::{self, Write};
 use std::fs::File;
@@ -10,6 +11,10 @@ fn main() {
     let seconds = usize_from_cmd();
 
     let mut sound = Vec::with_capacity(sample_rate * seconds);
+
+
+    let mut script_module = dyon::Module::new();
+    let match script = dyon::load(script_path, &mut script_module);
 
     for x in 0..sample_rate*seconds {
         sound.push(generate(x));
@@ -27,8 +32,8 @@ fn main() {
     }
 }
 
-fn generate(index: usize) -> u8 {
-    ((((index*2) as f64).sin() * (<u8>::max_value() as f64)/2. as f64) + <u8>::max_value())  as u8
+fn generate(index: usize) -> i8 {
+    ((index as f64).sin() * (<i8>::max_value() as f64))  as i8
 }
 
 fn usize_from_cmd() -> usize {

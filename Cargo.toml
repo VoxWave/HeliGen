@@ -5,4 +5,5 @@ authors = ["VoxWave <victor_bankowski@hotmail.com>"]
 
 [dependencies]
 hound = "3.1.0"
+dyon = "0.24.5"
 
