@@ -18,7 +18,6 @@ fn main() {
 
 //     let mut sound = Vec::with_capacity(sample_rate * seconds);
 
-
 //     let mut script_module = dyon::Module::new();
 //     let match script = dyon::load(script_path, &mut script_module);
 
@@ -28,7 +27,7 @@ fn main() {
 
 //     let mut buffer = File::create("sound").expect("whoops");
 
-//     match buffer.write(&sound) {
+//     match buffer.write(sound.as_slice()) {
 //         Ok(x) => {
 //             println!("{} bytes written", x)
 //         },
@@ -38,8 +37,8 @@ fn main() {
 //     }
 // }
 
-// fn generate(index: usize) -> i8 {
-//     ((index as f64).sin() * (<i8>::max_value() as f64))  as i8
+// fn generate(index: usize) -> u8 {
+//     (((index as f64).sin() * (<i8>::max_value() as f64))  as i16 + <i8>::max_value() as i16) as u8
 // }
 
 // fn usize_from_cmd() -> usize {
