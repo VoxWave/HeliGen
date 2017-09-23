@@ -1,5 +1,4 @@
 extern crate hound;
-extern crate dyon;
 
 use std::io::{self, Write};
 use std::fs::File;
@@ -7,7 +6,7 @@ use std::fs::File;
 use dyon::{error, run};
 
 fn main() {
-    error(run("src/scripts/test.dyon"));
+    
 }
 
 // fn main() {
