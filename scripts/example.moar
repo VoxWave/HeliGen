@@ -1,7 +1,7 @@
 some_variable: f32
 other_variable: [f32] = [2,3,4,1]
 
-tick (float, float) -> (uint, uint, int) {
+in:(float, float) out:(uint, uint, int), side:(some) {
     let x = in.0;
     x += 1;
     if x > in.0 {
@@ -9,5 +9,9 @@ tick (float, float) -> (uint, uint, int) {
     }
 
     return (x, 0, 0);
+}
+
+fn help_method() -> float{
+
 }
 
