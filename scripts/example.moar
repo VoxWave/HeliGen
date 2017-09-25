@@ -1,7 +1,7 @@
 some_variable: f32
 other_variable: [f32] = [2,3,4,1]
 
-in:(float, float) out:(uint, uint, int), side:(some) {
+in:(float, float), side:(some), out:(uint, uint, int) {
     let x = in.0;
     x += 1;
     if x > in.0 {
