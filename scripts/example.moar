@@ -1,17 +1,19 @@
-some_variable: f32
-other_variable: [f32] = [2,3,4,1]
+some_variable: f32;
+other_variable: [f32] = [2,3,4,1];
+pub in:(float, float);
 
-in:(float, float), side:(some), out:(uint, uint, int) {
-    let x = in.0;
-    x += 1;
-    if x > in.0 {
-        return (5, 0, 0);
+fn main(left_sample: float, right_sample: float) -> (uint, uint, int) {
+    mut x: float = left_sample;
+    y: float = moar::sin(x);
+    x += y;
+    if x > right_sample {
+        return help_method(left_sample, x, 0);
     }
 
-    return (x, 0, 0);
+    return (x, right_sample, 0);
 }
 
 fn help_method() -> float{
-
+    return
 }
 
