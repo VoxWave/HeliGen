@@ -1,3 +1,0 @@
-fn run() {
-    println("hello! I'm test no.2")
-}
