@@ -1,6 +1,6 @@
 # AudioGen
 
-AudioGen audio generator
+HeliGen audio generator
 Copyright (C) 2017 Victor Bankowski
 
 This project is licensed under MIT Licence and you can find the details in the LICENSE file.    
