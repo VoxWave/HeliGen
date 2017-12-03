@@ -1,4 +1,4 @@
-# AudioGen
+# HeliGen
 
 HeliGen audio generator
 Copyright (C) 2017 Victor Bankowski
