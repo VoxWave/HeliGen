@@ -1,52 +1,58 @@
-extern crate hound;
-
-use std::io::{self, Write};
-use std::fs::File;
-
-use dyon::{error, run};
+use cpal::{EventLoop, Format, StreamData, UnknownTypeOutputBuffer};
 
 fn main() {
-    
+    let event_loop = EventLoop::new();
+    let device = cpal::default_output_device().expect("No device available");
+    let format = device.default_output_format().expect("no default format");
+    let stream_id = event_loop.build_output_stream(&device, &format).unwrap();
+    event_loop.play_stream(stream_id);
+    let mut flippo = true;
+    let mut counter = 0;
+    event_loop.run(move |_stream_id, stream_data| {
+        match stream_data {
+            StreamData::Output { buffer: UnknownTypeOutputBuffer::F32(mut buffer)} => {
+                for elem in buffer.iter_mut() {
+                    counter += 1;
+                    if counter > 500 {
+                        counter = 0;
+                        flippo = !flippo;
+                    }
+                    if flippo {
+                        *elem = 1.0;
+                    } else {
+                        *elem = -1.0;
+                    }
+                }
+            },
+            StreamData::Output { buffer: UnknownTypeOutputBuffer::I16(mut buffer)} => {
+                for elem in buffer.iter_mut() {
+                    counter += 1;
+                    if counter > 500 {
+                        counter = 0;
+                        flippo = !flippo;
+                    }
+                    if flippo {
+                        *elem = i16::max_value();
+                    } else {
+                        *elem = i16::min_value();
+                    }
+                }
+            },
+            StreamData::Output { buffer: UnknownTypeOutputBuffer::U16(mut buffer)} => {
+                for elem in buffer.iter_mut() {
+                    counter += 1;
+                    if counter > 500 {
+                        counter = 0;
+                        flippo = !flippo;
+                    }
+                    if flippo {
+                        *elem = u16::max_value();
+                    } else {
+                        *elem = u16::min_value();
+                    }
+                }
+            },
+            _ => {},
+        }
+    });
 }
-
-// fn main() {
-//     let sample_rate = 44100;
-
-//     println!("Enter time in seconds: ");
-//     let seconds = usize_from_cmd();
-
-//     let mut sound = Vec::with_capacity(sample_rate * seconds);
-
-//     let mut script_module = dyon::Module::new();
-//     let match script = dyon::load(script_path, &mut script_module);
-
-//     for x in 0..sample_rate*seconds {
-//         sound.push(generate(x));
-//     }
-
-//     let mut buffer = File::create("sound").expect("whoops");
-
-//     match buffer.write(sound.as_slice()) {
-//         Ok(x) => {
-//             println!("{} bytes written", x)
-//         },
-//         _ => {
-//             panic!("AAAAAAAAA")
-//         }
-//     }
-// }
-
-// fn generate(index: usize) -> u8 {
-//     (((index as f64).sin() * (<i8>::max_value() as f64))  as i16 + <i8>::max_value() as i16) as u8
-// }
-
-// fn usize_from_cmd() -> usize {
-//     let mut num = String::new();
-
-//     io::stdin().read_line(&mut num)
-//         .expect("failed to read line");
-
-//     let num: usize = num.trim().parse()
-//         .expect("Please type a number!");
-//     num
-// }
