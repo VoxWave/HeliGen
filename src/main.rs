@@ -1,6 +1,32 @@
 use cpal::{EventLoop, Format, StreamData, UnknownTypeOutputBuffer};
+use std::i16;
 
 fn main() {
+    write_noise_wav();
+    //run_cpal();
+}
+
+fn write_noise_wav() {
+    let spec = hound::WavSpec {
+        channels: 1,
+        sample_rate: 44100,
+        bits_per_sample: 16,
+        sample_format: hound::SampleFormat::Int,
+    };
+    let mut sample = 0;
+    let mut writer = hound::WavWriter::create("noise2.wav", spec).unwrap();
+    writer.write_sample(sample).unwrap();
+    for _ in 0 .. 44100*2*60 {
+        if rand::random() {
+            sample += 1;
+        } else {
+            sample -= 1;
+        }
+        writer.write_sample(sample).unwrap();
+    }
+}
+
+fn run_cpal() {
     let event_loop = EventLoop::new();
     let device = cpal::default_output_device().expect("No device available");
     let format = device.default_output_format().expect("no default format");
