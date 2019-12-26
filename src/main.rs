@@ -11,6 +11,7 @@ fn main() {
     event_loop.run(move |_stream_id, stream_data| {
         match stream_data {
             StreamData::Output { buffer: UnknownTypeOutputBuffer::F32(mut buffer)} => {
+                println!("f32");
                 for elem in buffer.iter_mut() {
                     counter += 1;
                     if counter > 500 {
@@ -25,6 +26,7 @@ fn main() {
                 }
             },
             StreamData::Output { buffer: UnknownTypeOutputBuffer::I16(mut buffer)} => {
+                println!("i16");
                 for elem in buffer.iter_mut() {
                     counter += 1;
                     if counter > 500 {
@@ -39,6 +41,7 @@ fn main() {
                 }
             },
             StreamData::Output { buffer: UnknownTypeOutputBuffer::U16(mut buffer)} => {
+                println!("u16");
                 for elem in buffer.iter_mut() {
                     counter += 1;
                     if counter > 500 {
