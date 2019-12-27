@@ -13,16 +13,24 @@ fn write_noise_wav() {
         bits_per_sample: 16,
         sample_format: hound::SampleFormat::Int,
     };
-    let mut sample = 0;
+    let mut sample: i16 = 0;
+    let mut vel = 0;
     let mut writer = hound::WavWriter::create("noise2.wav", spec).unwrap();
     writer.write_sample(sample).unwrap();
     for _ in 0 .. 44100*2*60 {
         if rand::random() {
-            sample += 1;
+            vel += 1;
         } else {
-            sample -= 1;
+            vel -= 1;
         }
-        writer.write_sample(sample).unwrap();
+        sample += vel;
+        match writer.write_sample(sample) {
+            Ok(_) => {},
+            Err(_) => {
+                println!("{}, {}", sample, vel);
+                panic!();
+            },
+        };
     }
 }
 
