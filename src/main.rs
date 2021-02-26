@@ -1,9 +1,25 @@
 use cpal::{EventLoop, Format, StreamData, UnknownTypeOutputBuffer};
+use crossbeam::channel::unbounded;
 use std::i16;
+use wasmtime::Func;
+use wasmtime::Linker;
+use wasmtime::Module;
+use wasmtime::Store;
 
 fn main() {
-    write_noise_wav();
-    //run_cpal();
+    let (s,r) = unbounded();
+    std::thread::spawn(move || {
+        let store = Store::default();
+        let mut linker = Linker::new(&store);
+        linker.define("heligen", "output", Func::wrap(&store, move |output: u64| {
+            s.send(output).unwrap()
+        })).unwrap();
+        let module_file = std::fs::read("test.wasm").unwrap();
+        let module = Module::new(store.engine(), module_file).unwrap();
+        let instance = linker.instantiate(&module).unwrap();
+        let start_func = instance.get_func("heligen_start").unwrap().get0::<()>().unwrap();
+
+    });
 }
 
 fn write_noise_wav() {
@@ -17,7 +33,7 @@ fn write_noise_wav() {
     let mut vel = 0;
     let mut writer = hound::WavWriter::create("noise2.wav", spec).unwrap();
     writer.write_sample(sample).unwrap();
-    for _ in 0 .. 44100*2*60 {
+    for _ in 0..44100 * 2 * 60 {
         if rand::random() {
             vel += 1;
         } else {
@@ -25,11 +41,11 @@ fn write_noise_wav() {
         }
         sample += vel;
         match writer.write_sample(sample) {
-            Ok(_) => {},
+            Ok(_) => {}
             Err(_) => {
                 println!("{}, {}", sample, vel);
                 panic!();
-            },
+            }
         };
     }
 }
@@ -42,54 +58,58 @@ fn run_cpal() {
     event_loop.play_stream(stream_id);
     let mut flippo = true;
     let mut counter = 0;
-    event_loop.run(move |_stream_id, stream_data| {
-        match stream_data {
-            StreamData::Output { buffer: UnknownTypeOutputBuffer::F32(mut buffer)} => {
-                println!("f32");
-                for elem in buffer.iter_mut() {
-                    counter += 1;
-                    if counter > 500 {
-                        counter = 0;
-                        flippo = !flippo;
-                    }
-                    if flippo {
-                        *elem = 1.0;
-                    } else {
-                        *elem = -1.0;
-                    }
+    event_loop.run(move |_stream_id, stream_data| match stream_data {
+        StreamData::Output {
+            buffer: UnknownTypeOutputBuffer::F32(mut buffer),
+        } => {
+            println!("f32");
+            for elem in buffer.iter_mut() {
+                counter += 1;
+                if counter > 500 {
+                    counter = 0;
+                    flippo = !flippo;
                 }
-            },
-            StreamData::Output { buffer: UnknownTypeOutputBuffer::I16(mut buffer)} => {
-                println!("i16");
-                for elem in buffer.iter_mut() {
-                    counter += 1;
-                    if counter > 500 {
-                        counter = 0;
-                        flippo = !flippo;
-                    }
-                    if flippo {
-                        *elem = i16::max_value();
-                    } else {
-                        *elem = i16::min_value();
-                    }
+                if flippo {
+                    *elem = 1.0;
+                } else {
+                    *elem = -1.0;
                 }
-            },
-            StreamData::Output { buffer: UnknownTypeOutputBuffer::U16(mut buffer)} => {
-                println!("u16");
-                for elem in buffer.iter_mut() {
-                    counter += 1;
-                    if counter > 500 {
-                        counter = 0;
-                        flippo = !flippo;
-                    }
-                    if flippo {
-                        *elem = u16::max_value();
-                    } else {
-                        *elem = u16::min_value();
-                    }
-                }
-            },
-            _ => {},
+            }
         }
+        StreamData::Output {
+            buffer: UnknownTypeOutputBuffer::I16(mut buffer),
+        } => {
+            println!("i16");
+            for elem in buffer.iter_mut() {
+                counter += 1;
+                if counter > 500 {
+                    counter = 0;
+                    flippo = !flippo;
+                }
+                if flippo {
+                    *elem = i16::max_value();
+                } else {
+                    *elem = i16::min_value();
+                }
+            }
+        }
+        StreamData::Output {
+            buffer: UnknownTypeOutputBuffer::U16(mut buffer),
+        } => {
+            println!("u16");
+            for elem in buffer.iter_mut() {
+                counter += 1;
+                if counter > 500 {
+                    counter = 0;
+                    flippo = !flippo;
+                }
+                if flippo {
+                    *elem = u16::max_value();
+                } else {
+                    *elem = u16::min_value();
+                }
+            }
+        }
+        _ => {}
     });
 }
