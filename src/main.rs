@@ -1,5 +1,6 @@
 use cpal::{EventLoop, Format, StreamData, UnknownTypeOutputBuffer};
 use crossbeam::channel::unbounded;
+use crossbeam::channel::Receiver;
 use std::i16;
 use wasmtime::Func;
 use wasmtime::Linker;
@@ -14,12 +15,19 @@ fn main() {
         linker.define("heligen", "output", Func::wrap(&store, move |output: u64| {
             s.send(output).unwrap()
         })).unwrap();
-        let module_file = std::fs::read("test.wasm").unwrap();
+        let module_file = std::fs::read("test_module.wasm").unwrap();
         let module = Module::new(store.engine(), module_file).unwrap();
         let instance = linker.instantiate(&module).unwrap();
         let start_func = instance.get_func("heligen_start").unwrap().get0::<()>().unwrap();
-
+        start_func().unwrap();
     });
+    receiver(r);
+}
+
+fn receiver(r: Receiver<u64>) {
+    while let Ok(u) = r.recv() {
+        println!("number was generated: {}", u);
+    }
 }
 
 fn write_noise_wav() {
