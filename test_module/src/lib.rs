@@ -7,11 +7,11 @@ mod tests {
 }
 
 #[link(wasm_import_module = "heligen")]
-extern "C" { fn output(o: u64); }
+extern "C" { fn output(c: u64, o: f64); }
 
 #[no_mangle]
 fn heligen_start() {
     for i in 0..10000 {
-        unsafe{output(i)};
+        unsafe{ output(0, i as f64) };
     }
 }
