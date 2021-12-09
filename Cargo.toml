@@ -2,7 +2,7 @@
 name = "heligen"
 version = "0.1.0"
 authors = ["VoxWave <victor_bankowski@hotmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 cpal = "0.9.0"

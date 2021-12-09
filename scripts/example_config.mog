@@ -1,9 +1,0 @@
-output = wave(name:"output.wav", sample_rate: 44100, bit_rate: f32, channels: 2);
-file = file_as_f32("numeroita.txt");
-echo = load("echo.moar");
-vibrato = load("vibrato.moar");
-
-file.out.0 -> echo.in.0;
-file.out.0 -> echo.in.1;
-echo.out.0 -> output.in.0;
-echo.out.1 -> output.in.1;

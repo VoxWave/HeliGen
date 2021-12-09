@@ -2,6 +2,7 @@ use cpal::{EventLoop, Format, StreamData, UnknownTypeOutputBuffer};
 use crossbeam::channel::unbounded;
 use crossbeam::channel::Receiver;
 use crossbeam::channel::Sender;
+use std::fmt::write;
 use std::i16;
 use wasmtime::Func;
 use wasmtime::Linker;
@@ -9,12 +10,16 @@ use wasmtime::Module;
 use wasmtime::Store;
 
 fn main() {
+    let (doubler_1_sender, doubler_1_receiver) = unbounded();
+    let (doubler_2_sender, doubler_2_receiver) = unbounded();
     let (s,r) = unbounded();
-    spawn_moofloom_thread("test_module.wasm".to_string(), vec![], vec![s]);
+    spawn_wasm_thread("generator.wasm".to_string(), vec![], vec![doubler_1_sender]);
+    spawn_wasm_thread("doubler.wasm".to_string(), vec![doubler_1_receiver], vec![doubler_2_sender]);
+    spawn_wasm_thread("doubler.wasm".to_string(), vec![doubler_2_receiver], vec![s]);
     receiver(r);
 }
 
-fn spawn_moofloom_thread(module_name: String, inputs: Vec<Receiver<f64>>, outputs: Vec<Sender<f64>>) {
+fn spawn_wasm_thread(module_name: String, inputs: Vec<Receiver<f64>>, outputs: Vec<Sender<f64>>) {
     std::thread::spawn(move || {
         let store = Store::default();
         let mut linker = Linker::new(&store);
@@ -39,8 +44,20 @@ fn spawn_moofloom_thread(module_name: String, inputs: Vec<Receiver<f64>>, output
 }
 
 fn receiver(r: Receiver<f64>) {
-    while let Ok(u) = r.recv() {
-        println!("number was generated: {}", u);
+    let spec = hound::WavSpec {
+        channels: 1,
+        sample_rate: 44100,
+        bits_per_sample: 32,
+        sample_format: hound::SampleFormat::Float,
+    };
+    let mut i = 0;
+    let mut writer = hound::WavWriter::create("test.wav", spec).unwrap();
+    while let Ok(sample) = r.recv() {
+        if i >= 44100*10 {
+            break;
+        }
+        writer.write_sample(sample as f32).unwrap();
+        i += 1;
     }
 }
 
@@ -48,7 +65,7 @@ fn write_noise_wav() {
     let spec = hound::WavSpec {
         channels: 1,
         sample_rate: 44100,
-        bits_per_sample: 16,
+        bits_per_sample: 32,
         sample_format: hound::SampleFormat::Int,
     };
     let mut sample: i16 = 0;
