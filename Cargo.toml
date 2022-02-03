@@ -10,4 +10,5 @@ hound = "3.4.0"
 rand = "0.7.2"
 wasmtime = "0.23.0"
 crossbeam = "0.8.0"
+toml = "0.5.8"
 
