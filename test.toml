@@ -1,20 +1,22 @@
-[generator]
+[[modules]]
+id = "generator"
 module = "generator.wasm"
 
-[doubler1]
-module = "./doubler.wasm"
-dependencies = [
-    {
-        module = {
-            id = "doubler2", 
-            output_port = 0,
-        }, 
-        input_port = 0,
-    },
-]
 
-[doubler2]
-module = "doubler.wasm"
+[[modules]]
+id = "doubler1"
+module_path = "./doubler.wasm"
+
+
+[[modules]]
+id = "doubler2"
+module = "./doubler.wasm"
+
+[[modules.dependencies]]
+id = "doubler1"
+from_port = 0
+to_port = 0
+
 
 [output]
 module = "doubler2"
